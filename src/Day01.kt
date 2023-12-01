@@ -1,19 +1,16 @@
-fun main()
-{
+fun main() {
     val input = readInput("inputDay01")
     part1(input)
     part2(input)
 }
-fun part1(input: List<String>)
-{
+fun part1(input: List<String>) {
     var answer = 0
     input.map { line ->
         val firstDigit = line.firstOrNull { it.isDigit() } // get first number
         val lastDigit = line.lastOrNull { it.isDigit() }   // get last number
         //println("$firstDigit$lastDigit") //check output
         var number = "$firstDigit$lastDigit".toIntOrNull()  // set first and last number to one int
-        if (number != null)
-        {
+        if (number != null) {
             answer+= number // add all number to one answer
         }
     }
@@ -22,7 +19,8 @@ fun part1(input: List<String>)
 
 fun part2(input: List<String>) {
 var answer = 0
-        val wordsToCheck = setOf("one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "1", "2", "3", "4", "5", "6", "7", "8", "9")
+
+        val wordsToCheck = setOf("one", "two", "three", "four", "five", "six", "seven", "eight", "nine","1", "2", "3", "4", "5", "6", "7", "8", "9" )
         val pattern = Regex(wordsToCheck.joinToString("|"))
 
         for (inputString in input) {
@@ -35,7 +33,8 @@ var answer = 0
                 if (fmatch == null) {
                     fmatch = match.value
                     firstmatch = findRealDigit(fmatch)
-                } else {
+                }
+                else {
                     lmatch = match.value
                     lastmatch = findRealDigit(lmatch)
                 }
