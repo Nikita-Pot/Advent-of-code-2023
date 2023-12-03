@@ -1,10 +1,11 @@
+
 fun main() {
     val input = readInput("inputDay01")
     part1(input)
    part2(input)
 
 }
-fun part1(input: List<String>) {
+private fun part1(input: List<String>) {
     var answer = 0
     input.map { line ->
         val firstDigit = line.firstOrNull { it.isDigit() } // get first number
@@ -18,7 +19,7 @@ fun part1(input: List<String>) {
     println("the answer of part 1 is: $answer") // when whole document is done give the answer
 }
 
-fun part2(input: List<String>) {
+private fun part2(input: List<String>) {
     var answer = 0
     var count = 0
     val regex = Regex("(?=(one|two|three|four|five|six|seven|eight|nine|1|2|3|4|5|6|7|8|9))")
