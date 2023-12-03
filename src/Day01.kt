@@ -1,7 +1,8 @@
 fun main() {
     val input = readInput("inputDay01")
     part1(input)
-    part2(input)
+   part2(input)
+
 }
 fun part1(input: List<String>) {
     var answer = 0
@@ -18,10 +19,10 @@ fun part1(input: List<String>) {
 }
 
 fun part2(input: List<String>) {
-var answer = 0
+    var answer = 0
+    var count = 0
+    val regex = Regex("(?=(one|two|three|four|five|six|seven|eight|nine|1|2|3|4|5|6|7|8|9))")
 
-        val wordsToCheck = setOf("one", "two", "three", "four", "five", "six", "seven", "eight", "nine","1", "2", "3", "4", "5", "6", "7", "8", "9" )
-        val pattern = Regex(wordsToCheck.joinToString("|"))
 
         for (inputString in input) {
             var fmatch: String? = null
@@ -29,20 +30,26 @@ var answer = 0
             var firstmatch = 0
             var lastmatch = 0
 
-            pattern.findAll(inputString).forEach { match ->
+            regex.findAll(inputString).forEach { match ->
                 if (fmatch == null) {
-                    fmatch = match.value
+                    fmatch = match.groups[1]?.value
                     firstmatch = findRealDigit(fmatch)
                 }
                 else {
-                    lmatch = match.value
+                    lmatch = match.groups[1]?.value
                     lastmatch = findRealDigit(lmatch)
+
                 }
             }
-            val number = "$firstmatch$lastmatch".toInt()  // set first and last number to one int
+            if (lastmatch ==0) lastmatch=firstmatch
+            val number = firstmatch *10 + lastmatch  // set first and last number to one int
             answer += number // add all number to one answer
+            count++
+            println("number: $number, count: $count")
+
         }
-        println("the answer of part 2 is: $answer")
+        println("the answer of part 2 is: $answer count = $count")
+
 
 }
 fun findRealDigit(string: String?): Int {
