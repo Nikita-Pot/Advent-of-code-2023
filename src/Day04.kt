@@ -11,8 +11,6 @@ fun main() {
     val input = readInput("inputDay04")
     part1(input)
     part2(input)
-
-
 }
 
 private fun part1(input: List<String>) {
@@ -30,7 +28,6 @@ private fun part1(input: List<String>) {
         println("All Numbers: $numbers")
         println("Filtered Numbers: $filteredNumbers")
         println("matching numbers count: $matchingCount")
-
     }
 }
 
