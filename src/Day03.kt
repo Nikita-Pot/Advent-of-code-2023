@@ -10,8 +10,10 @@ val testinput = listOf(
     "...\$.*....\n",
     ".664.598.."
 )
-
+var lastCheck=0
+var match :Boolean = false
 fun main() {
+
     val input = readInput("inputDay03")
     part1(input)
     part2(input)
@@ -83,9 +85,10 @@ private fun part2(input: List<String>):Int {
     val charactersOfNumber = mutableListOf<Char>()
     var answer = 0
     var x: Int
-
+    var lastnumbers =0
     for (y in 0 until arrayLength) {
         x = 0
+
         input.forEach { line->
             while (isCharacterDigitWithBoundCheck(x, y, array)) {
                 coordinatesOfDigits.add(intArrayOf(x, y))
@@ -93,15 +96,38 @@ private fun part2(input: List<String>):Int {
                 x++
             }
 
-            if (isPartNumber(coordinatesOfDigits, array, arrayLength, lineLength)) {
-                //println(charactersOfNumber.joinToString("").toInt())// check number
-                answer += charactersOfNumber.joinToString("").toInt()
+            if (isPartNumber2(coordinatesOfDigits, array, arrayLength, lineLength)) {
+
+                if (match == false)
+                    lastnumbers = charactersOfNumber.joinToString("").toInt()
+                //println("last match: $lastnumbers")
+                if(match == true){
+                    var newnumber = charactersOfNumber.joinToString("").toInt()
+                    println("lastnumber: $lastnumbers, newnumber: $newnumber")
+                    val math =lastnumbers * newnumber
+                  answer+= math
+                    println(answer)
+                    match=false}
             }
             coordinatesOfDigits.clear()
             charactersOfNumber.clear()
             x++
         }
     }
-    println("answer of part one: $answer")
+    println("answer of part two: $answer")
     return answer
+}
+fun isAGear(x: Int, y: Int, array: List<String>): Boolean {
+    val charToCheck = array[y][x]
+    return if (!Character.isDigit(charToCheck) && charToCheck == '*') {
+        if(lastCheck!= 0 && lastCheck=="$x$y".toIntOrNull()){match=true}
+        else{ lastCheck= "$x$y".toIntOrNull()!!
+        }
+       // println(match)
+        true
+    } else false}
+
+fun isPartNumber2(coordinatesOfDigits: List<IntArray>, array: List<String>, arrayLength: Int, lineLength: Int): Boolean {
+    return coordinatesOfDigits.any { checkNeighbours(it, arrayLength, lineLength) { isAGear(it[0], it[1], array) }
+    }
 }
