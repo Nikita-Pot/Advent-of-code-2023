@@ -7,7 +7,6 @@ fun main() {
     println("answer of part1: $answer")
     val answer2 = part2(input)
     println("answer of part2: $answer2")
-
 }
 
 private fun part1(input: List<String>): Int {
@@ -28,6 +27,7 @@ private fun part1(input: List<String>): Int {
                     index++
                 }
             }
+
             when (line[index]) {
                 'r' -> {
                     // println(" game: $gameId cubes = $cubes color: red max 12")
@@ -37,7 +37,6 @@ private fun part1(input: List<String>): Int {
                 }
 
                 'b' -> {
-
                     //println("game: $gameId cubes = $cubes color: blue max 13")
                     if (cubes > 13) {
                         return@sumOf 0
@@ -57,9 +56,7 @@ private fun part1(input: List<String>): Int {
     }
 }
 
-
 private fun part2(input: List<String>): Int {
-
     return input.sumOf { line ->
         var cubes = 0
         var red = 0
@@ -78,6 +75,7 @@ private fun part2(input: List<String>): Int {
                     index++
                 }
             }
+
             when (line[index]) {
                 'r' -> {
                     if (cubes > red) {
