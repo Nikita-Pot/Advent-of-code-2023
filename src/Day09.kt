@@ -5,8 +5,8 @@ fun main() {
     val input = readInput("inputDay09")
     check(part1(testinput) == 114)
     println("part one: ${part1(input)}")
-//  check(part2(testinput))
-//    println("part two: ${part2(input)}")
+    check(part2(testinput) == 2)
+    println("part two: ${part2(input)}")
 }
 
 private fun part1(input: List<String>): Int {
@@ -18,6 +18,14 @@ private fun part1(input: List<String>): Int {
     }
 }
 
+private fun part2(input: List<String>): Int {
+    return input.sumOf { line ->
+        val numbers = line.split(' ').reversed()
+        val arrayOfNumbers = IntArray(numbers.size) { numbers[it].toInt() }
+        val answer = arrayOfNumbers.last() + calcNext(arrayOfNumbers)
+        answer
+    }
+}
 
 private fun calcNext(line: IntArray): Int {
     var differenceToAdd = 0
