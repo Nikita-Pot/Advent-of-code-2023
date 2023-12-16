@@ -29,10 +29,9 @@ private fun part1(input: List<String>): Int {
             }
         }
         if (maxTime and 1 == 0) {
-          answer*= ((maxTime shr 1) - left) * 2 + 1
-        }
-        else {
-            answer*=  ((maxTime shr 1) - left) * 2 + 2
+            answer *= ((maxTime shr 1) - left) * 2 + 1
+        } else {
+            answer *= ((maxTime shr 1) - left) * 2 + 2
         }
     }
 
@@ -57,9 +56,8 @@ private fun part2(input: List<String>): Long {
         }
     }
     if (time and 1L == 0L) {
-     return   ((time shr 1) - left) * 2 + 1
-    }
-    else {
-      return  ((time shr 1) - left) * 2 + 2
+        return ((time shr 1) - left) * 2 + 1
+    } else {
+        return ((time shr 1) - left) * 2 + 2
     }
 }
