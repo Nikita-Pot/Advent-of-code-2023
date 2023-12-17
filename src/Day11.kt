@@ -1,63 +1,64 @@
 import kotlin.math.abs
 
-fun addEmptyLineAfterNonHash(input: List<String>): List<String> {
-    val result = mutableListOf<String>()
-
-    for (line in input) {
-        result.add(line)
-
-        // Controleer of de huidige regel geen '#' bevat
-        if (!line.contains('#')) {
-            // Voeg een nieuwe regel '......' toe
-            result.add(".".repeat(line.length))
-        }
-    }
-
-    return result
-}
-
 fun main() {
     val testinput = readInput("Day11Test")
     val input = readInput("inputDay11")
-    check(part1(testinput) == 374L)
-    println("part one: ${part1(input)}")
-    //check(part2(testinput) == 2)
-    //println("part two: ${part2(input)}")
+    check(solve(testinput, 1) == 374L)
+    println("part one: ${solve(input, 1)}")
+    check(solve(testinput, 99) == 8410L)
+    println("part two: ${solve(input, 999999)}")
 }
 
-private fun part1(input: List<String>): Long {
-    val completeInput = addEmptyLineAfterNonHash(input)
-    val size = completeInput.size
-    val lenght = completeInput[0].length
+private fun solve(input: List<String>, times: Int): Long {
+    val size = input.size
+    val lenght = input[0].length
     val coordinatesOfGalaxy = mutableListOf<IntArray>()
+    var extraRow = 0
 
-    var extraColom = 0
-    for (x in 0..lenght) {
-        var galaxycheck = false
-        for (y in 0..size) if (isCharactertWithBoundCheck(y, x, completeInput) && isAGalaxy(y, x, completeInput)) {
-            galaxycheck = true
+    for (y in 0..size) {// check elke y
+        var emptyrow = true
 
-            coordinatesOfGalaxy.add(intArrayOf(y, (x + extraColom)))
+        for (x in 0..lenght) { // check elke x in y
 
+            if (isCharactertWithBoundCheck(y, x, input) && isAGalaxy(y, x, input)) {
+                emptyrow = false
+                var extraCollum = 0
+
+                for (xCheck in 0..x) {
+                    var emptyColumn = true
+
+                    for (yCheck in 0..size) {
+
+                        if (isCharactertWithBoundCheck(yCheck, xCheck, input) && isAGalaxy(yCheck, xCheck, input)) {
+                            emptyColumn = false
+                        }
+                    }
+
+                    if (emptyColumn == true) {
+                        extraCollum += times
+                    }
+                }
+                coordinatesOfGalaxy.add(intArrayOf((y + extraRow), (x + extraCollum)))
+            }
         }
-        if (galaxycheck == false) {
-            extraColom++
+        if (emptyrow == true) {
+            extraRow += times
         }
     }
 
     println("check coordinates")
     var distance = 0L
+
     for (i in coordinatesOfGalaxy.indices) {
         val currentCoordinate = coordinatesOfGalaxy[i]
+
         // Loop door de rest van de coördinaten en bereken de afstand
         for (j in (i + 1) until coordinatesOfGalaxy.size) {
             val nextCoordinate = coordinatesOfGalaxy[j]
             distance += calcDistance(currentCoordinate, nextCoordinate).toLong()
-            // println("a = $currentCoordinate , b = $nextCoordinate, newdistance = $distance")
         }
     }
-
-    println("answer of part one: $distance")
+    println("answer: $distance times:$times")
     return distance
 }
 
@@ -71,14 +72,11 @@ private fun isCharactertWithBoundCheck(y: Int, x: Int, array: List<String>): Boo
 }
 
 private fun calcDistance(coorinatesA: IntArray, coorinatesB: IntArray): Int {
-
-    val (xA, yA) = coorinatesA
-    val (xB, yB) = coorinatesB
+    val (yA, xA) = coorinatesA
+    val (yB, xB) = coorinatesB
     val verschilX = abs(xB - xA)
     val verschilY = abs(yB - yA)
     val distance = verschilX + verschilY
     return distance
-
-
 }
 
