@@ -1,10 +1,4 @@
 import kotlin.math.abs
-import kotlin.math.sqrt
-import kotlin.math.pow
-import kotlin.math.ceil
-
-//mine        9157600
-// need to be 9681886
 
 fun addEmptyLineAfterNonHash(input: List<String>): List<String> {
     val result = mutableListOf<String>()
@@ -33,21 +27,24 @@ fun main() {
 
 private fun part1(input: List<String>): Long {
     val completeInput = addEmptyLineAfterNonHash(input)
-    val length = completeInput.size
+    val size = completeInput.size
+    val lenght = completeInput[0].length
     val coordinatesOfGalaxy = mutableListOf<IntArray>()
 
-    var x: Int
-    for (y in 0 until length) {
-        x = 0
-        completeInput.forEach { line ->
-            while (isCharactertWithBoundCheck(y, x, completeInput)) {
-                if (isAGalaxy(y, x, completeInput)) {
-                    coordinatesOfGalaxy.add(intArrayOf(y, x))
-                }
-                x++
-            }
+    var extraColom = 0
+    for (x in 0..lenght) {
+        var galaxycheck = false
+        for (y in 0..size) if (isCharactertWithBoundCheck(y, x, completeInput) && isAGalaxy(y, x, completeInput)) {
+            galaxycheck = true
+
+            coordinatesOfGalaxy.add(intArrayOf(y, (x + extraColom)))
+
+        }
+        if (galaxycheck == false) {
+            extraColom++
         }
     }
+
     println("check coordinates")
     var distance = 0L
     for (i in coordinatesOfGalaxy.indices) {
@@ -66,7 +63,7 @@ private fun part1(input: List<String>): Long {
 
 private fun isAGalaxy(y: Int, x: Int, array: List<String>): Boolean {
     val charToCheck = array[y][x]
-    return !Character.isDigit(charToCheck) && charToCheck == '#'
+    return charToCheck == '#'
 }
 
 private fun isCharactertWithBoundCheck(y: Int, x: Int, array: List<String>): Boolean {
